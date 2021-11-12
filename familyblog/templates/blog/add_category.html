@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Create a new category
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+    <h1>Add Blog Category...</h1>
+    <br/>
+    <h2>Existing Categories</h2>
+    
+    <!-- {% for item in cat_menu %}
+        {{ item|title }}<br/>
+
+    {% endfor %} -->
+    {% for item in all_cats %}
+        <li>{{ item }}</li>
+    {% endfor %}
+    
+    <br/> 
+    Please use lower case
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <br/>
+            <button type="submit" class="btn btn-outline-success">Add Category</button>
+            <a href="{% url 'blog_home' %}" class="btn btn-outline-secondary">Back</a>
+        </form>
+    </div>
+</div>
+    {% else %}
+   
+        You're not authorised to be here! (And you know it...)
+  
+    {% endif %}
+{% endblock %}
