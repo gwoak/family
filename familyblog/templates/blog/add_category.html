@@ -10,16 +10,12 @@
     <br/>
     <h2>Existing Categories</h2>
     
-    <!-- {% for item in cat_menu %}
-        {{ item|title }}<br/>
-
-    {% endfor %} -->
     {% for item in all_cats %}
-        <li>{{ item }}</li>
+        <li>{{ item|title }}</li>
     {% endfor %}
     
     <br/> 
-    Please use lower case
+    
     <div class="form-group">
         <form method="POST">
             {% csrf_token %}

@@ -11,18 +11,21 @@
     <h1 class="text-center mt-3">{{ cats }}</h1>
     <p></p>
     {% for post in category_posts %}
-    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 bg-light shadow-sm position-relative">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">              
+          <li class="list-group-item bg-light">              
                     <a href="{% url 'post_detail' post.pk %}"><h4>{{ post.title }}</h4></a>            
-                        &nbsp;&nbsp;&nbsp; By:&nbsp;<a href="{% url 'author' post.author_id %}">{{ post.author.first_name }}</a>
-                        - {{ post.date_created|date:'F d, Y' }} in category: <a>{{ post.category }}</a>
-                        <small>
+                        By:&nbsp;<a href="{% url 'author' post.author_id %}">{{ post.author.first_name }}</a>
+                        - {{ post.date_created|date:'F d, Y' }} in category: <a>{{ post.category|title }}</a>
+                        <div>
+                            <small>
+                                <p></p>
                             {% if user.id == post.author.id %}
                                 <a href="{% url 'update_post' post.pk %}" class="btn btn-outline-secondary btn-sm">Edit</a>
                                 <a href="{% url 'delete_post' post.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
                             {% endif %}
-                        </small>
+                            </small>
+                        </div>
                     <p></p>
                     {{ post.snippet|safe }}...<a href="{% url 'post_detail' post.pk %}"><small>Read more</small></a>
                         
@@ -33,20 +36,29 @@
                     
         
         {% endfor %}
-        <div>
-            <nav aria-label="Page navigation">
-                <ul class="pagination">            
-                    {% if category_posts.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
-                        <li class="page-item"><a class="page-link" href="?page={{ category_posts.previous_page_number }}">Previous</a></li>
-                    {% endif %} 
-                        <li class="page-item disabled"><a href="#" class="page-link">Page {{ category_posts.number }} of {{ category_posts.paginator.num_pages }}</a></li>          
-                    {% if category_posts.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{ category_posts.next_page_number }}">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="?page={{ category_posts.paginator.num_pages }}">Last &raquo;</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
+        
+
+        {% if category_posts.has_other_pages %}
+    
+            {% if category_posts.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">&laquo; First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ category_posts.previous_page_number }}">&laquo;Previous</a>
+            
+            {% endif %}
+            {% for num in category_posts.paginator.page_range %}
+                {% if category_posts.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > category_posts.number|add:'-3' and num < category_posts.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if category_posts.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ category_posts.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ category_posts.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+    
+        {% endif %}
+
         </div>
 </div>
         {% else %}

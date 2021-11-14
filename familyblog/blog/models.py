@@ -4,8 +4,16 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+# class to convert user input to lower case for new categories
+class NameField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        super(NameField, self).__init__(*args, **kwargs)
+
+    def get_prep_value(self, value):
+        return str(value).lower()
+
 class Category(models.Model):
-    name = models.CharField(max_length=255)
+    name = NameField(max_length=255)
 
     def __str__(self):
        return self.name

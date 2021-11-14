@@ -1,21 +1,18 @@
 from django.views.generic import TemplateView
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Page
-from .forms import PageForm, PageEditForm
 
-
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin, TemplateView):
     template_name = 'pages/home.html'
 
-class TreePageView(TemplateView):
+class TreePageView(LoginRequiredMixin, TemplateView):
     template_name = 'pages/tree.html'
 
-class PageView(TemplateView):
+class PageView(LoginRequiredMixin, TemplateView):
     model = Page
     template_name = 'pages/graham_page.html'
 
-class KPageView(TemplateView):
+class KPageView(LoginRequiredMixin, TemplateView):
     model = Page
     template_name = 'pages/karin_page.html'
 

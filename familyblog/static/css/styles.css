@@ -1,123 +1,26 @@
-hr.new {
-    border-top: .05rem solid #727272;
-  }
-  
-  .col-content {
-      padding: 15px;
-      
-      background: #f7f7f7;
-      margin-bottom: 15px;
-      
-  }
-  
-  body {
-      padding: 0;
-      margin: 0;
-      background: #e9f2f6;
-      font-size: 1.2rem;
-      
-  }
-  .navbar {
-      background:#014797;
-  }
-  
-  .navbar-brand {
-      color: #fff;
-      cursor: pointer;
-  }
-  .nav-link {
-      margin-right: 1em !important;
-  }
-  .nav-link:hover {
-      color: rgb(255, 255, 255);
-  }
-  /* .navbar-collapse {
-      justify-content: flex-end;
-  } */
-  
-  .twocolumns {
-      column-count: 2;
+.navbar {
+  background-color: #e3f2fd;
+}
+
+body {
+  font-size: 1.1rem;
+}
+
+.newspaper {
+      column-count: 2;     
       -webkit-column-count: 2;
       -moz-column-count:    2; /* Firefox */
-      column-count:         2;
-        -webkit-column-gap:   50px; /* Chrome, Safari, Opera */ 
+      -webkit-column-gap:   50px; /* Chrome, Safari, Opera */
       -moz-column-gap:      50px; /* Firefox */
       column-gap:           50px;
-      column-rule-color: #ccc; 
-      column-rule-style:solid; 
+      column-rule-color: #ccc;
+      column-rule-style:solid;
       column-rule-width: 1px;
       column-width: 350px;
-      text-align: justify;    
-  
+      text-align: justify;
   }
-  
-  .tree {
-      margin-top: 50px;
-  }
-  
-  .list-group-flush {
-    padding: 0px;
-  }
-  
-  /* Pagination */
-  .blog-pagination {
-    margin-bottom: 4rem;
-  }
-  .blog-pagination > .btn {
-    border-radius: 2rem;
-  }
-  
-  .errorlist {
-    color: red;
-    list-style-type: disc;
-  
-  }
-  
-  .blog-footer {
-    padding: 2rem 0;
-    color: #727272;
-    font-size: 0.8rem;
-    text-align: center;
-    margin-top: 2rem;
-    /* background: #e9f2f6; */
-    /* background-color: #ebebeb; */
-    border-top: .05rem solid #c9c9c9;
-  }
-  
-  .blog-footer p:last-child {
-    margin-bottom: 0;
-  }
-  
-/* 
-  .modal-xxl {
-    width: 86%;
-  } 
-   
+ 
 
-
-  .modal-dialog {
-    max-width: calc(100vw - 143px);
-    overflow-y: auto; 
-  }
-  
-
-  .carousel-item img  {
-    max-height: 76vh;
-    /* max-width: 75vw; */
-  } 
-
-  .carousel-control-prev-icon {
-    background-image: url(/static/images/left-arrow.png); 
-    width: 30px;
-;
-    
-}
-
-.carousel-control-next-icon {
-  background-image: url(/static/images/right-arrow.png);
-  width: 30px; 
-  
-}
 .carousel-control-next, .carousel-control-prev {
   width: 5%;
 }
@@ -126,6 +29,10 @@ hr.new {
   opacity: 0.7;
 }
 
-  .caption {
-    font-size: 0.9rem;
-  }
+.caption {
+  font-size: 0.9rem;
+}
+
+.blog-footer {
+  font-size: 0.8rem;
+}

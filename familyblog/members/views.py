@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .forms import EditProfileForm, SignUpForm, PasswordChangingForm
 
-class PasswordsChangeView(PasswordChangeView):
+class PasswordsChangeView(LoginRequiredMixin, PasswordChangeView):
     # form_class = PasswordChangeForm
     form_class = PasswordChangingForm
     success_url = reverse_lazy('password_changed')
@@ -18,7 +18,7 @@ class UserRegisterView(generic.CreateView):
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
 
-class UserEditView(generic.UpdateView):
+class UserEditView(LoginRequiredMixin, generic.UpdateView):
     form_class = EditProfileForm
     template_name = 'registration/edit_profile.html'
     success_url = reverse_lazy('home')

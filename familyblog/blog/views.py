@@ -1,17 +1,20 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from blog.models import Post, Category
 from . forms import PostForm, EditForm
 
-
-class PostView(ListView):
+# Note: decorators for function-based views, mixin for class-based views to 
+# require login
+class PostView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'blog/blog.html'
     ordering = ['-date_created']
-    paginate_by = 5  
+    paginate_by = 5
 
     def get_context_data(self, *args, **kwargs):
         cat_menu = Category.objects.all()
@@ -20,9 +23,7 @@ class PostView(ListView):
         return context
 
 
-class PostDetailView(DetailView):
-    # login_url = '/'
-    # redirect_field_name = 'home'
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
 
@@ -30,10 +31,9 @@ class PostDetailView(DetailView):
         cat_menu = Category.objects.all()
         context = super(PostDetailView, self). get_context_data(*args, **kwargs)
         context["cat_menu"] = cat_menu
-        # context = super(PostDetailView, self).category_renderer(*args, **kwargs)
         return context
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/add_post.html'
@@ -43,7 +43,7 @@ class AddPostView(CreateView):
         return super().form_valid(form)
     
 
-class AddCategoryView(CreateView):
+class AddCategoryView(LoginRequiredMixin, CreateView):
     model = Category    
     template_name = 'blog/add_category.html'
     fields = '__all__'
@@ -55,33 +55,47 @@ class AddCategoryView(CreateView):
         context["cat_menu"] = cat_menu
         return context
 
+
+# idea for pagination for function views and for the templates from 
+# https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html
+# for class based view and template, Corey Schafer youtube
+@login_required
 def CategoryView(request, cats):
     category_posts = Post.objects.filter(category=cats.replace('-', ' ')).order_by('-date_created')
-    paginator = Paginator(category_posts, 5) 
-    page_number = request.GET.get('page')
-    # nums = "a" * paginator.num_pages
-    nums = paginator.num_pages
-    category_posts = paginator.get_page(page_number)
-    return render(request, 'blog/categories.html', {'cats':cats.title().replace('-', ' '), 'category_posts':category_posts, 'nums':nums})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(category_posts,5) 
+    try:
+        category_posts = paginator.page(page)
+    except PageNotAnInteger:
+        category_posts = paginator.page(1)
+    except EmptyPage:
+        category_posts = paginator.page(paginator.num_pages)
 
+    return render(request, 'blog/categories.html', {'cats':cats.title().replace('-', ' '), 'category_posts':category_posts})
+
+@login_required
 def AuthorView(request, author):
     author_posts = Post.objects.filter(author=author).order_by('-date_created')
     author_name = User.objects.get(id=author)
+    page = request.GET.get('page', 1)
     paginator = Paginator(author_posts, 5) 
-    page_number = request.GET.get('page')
-    nums = "a" * paginator.num_pages
-    author_posts = paginator.get_page(page_number)
-    return render(request, 'blog/author.html', {'author':author_name, 'author_posts':author_posts, 'nums':nums})
+    try:
+        author_posts = paginator.page(page)
+    except PageNotAnInteger:
+        author_posts = paginator.page(1)
+    except EmptyPage:
+        author_posts = paginator.page(paginator.num_pages)
+    
+    return render(request, 'blog/author.html', {'author':author_name, 'author_posts':author_posts})
 
 
-class UpdatePostView(UpdateView):
+class UpdatePostView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = EditForm
     template_name = 'blog/update_post.html'
     
     
-
-class DeletePostView(DeleteView):
+class DeletePostView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'blog/delete_post.html'
     success_url = reverse_lazy('blog_home')
