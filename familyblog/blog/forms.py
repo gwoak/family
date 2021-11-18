@@ -7,6 +7,7 @@ choices = Category.objects.all().values_list('name', 'name')
 choice_list = []
 
 for item in choices:
+    
     choice_list.append(item)
 choice_list.sort()
 
@@ -19,7 +20,7 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value': '', 'type': 'hidden'}),
-            'category': forms.Select(choices=choice_list, attrs={'class': 'form-control'}),            
+            'category': forms.Select(choices=choice_list, attrs={'class': 'form-control', 'style': 'text-transform: capitalize;'}),            
             'body': SummernoteWidget(),
             'snippet': forms.Textarea(attrs={'class': 'form-control'}),
             'date_created': forms.DateTimeInput(attrs={'class': 'form-control'}),
@@ -39,7 +40,7 @@ class EditForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
-            'category': forms.Select(choices=choice_list, attrs={'class': 'form-control'}),
+            'category': forms.Select(choices=choice_list, attrs={'class': 'form-control', 'style': 'text-transform: capitalize;'}),
             'body': SummernoteWidget(),
             'snippet': forms.Textarea(attrs={'class': 'form-control'}),
             'date_created': forms.DateTimeInput(attrs={'class': 'form-control'}),
