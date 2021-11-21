@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from members import views as members_views
+from blog import views as blog_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -17,9 +18,8 @@ urlpatterns = [
     # path('members/', include('django.contrib.auth.urls')),
     path('members/', include('members.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('summernote/', include('django_summernote.urls')),
-    
-    
+    path('ckeditor', include('ckeditor_uploader.urls')),
+           
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

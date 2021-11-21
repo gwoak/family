@@ -2,9 +2,6 @@
   background-color: #e3f2fd;
 }
 
-body {
-  font-size: 1.1rem;
-}
 
 .newspaper {
       column-count: 2;     
@@ -39,4 +36,17 @@ body {
 
 ul.errorlist {display:none;}
 
+.note-float-right {
+  margin-left: 20px;
+}
+.note-float-left {
+  margin-right: 20px;
+}
 
+figure {
+  margin: 20px;
+}
+
+figcaption {
+  text-align: center;
+}

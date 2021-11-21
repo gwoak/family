@@ -1,6 +1,7 @@
 from django import forms
 from . models import Post, Category
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+# from django_summernote.widgets import SummernoteWidget
 
 choices = Category.objects.all().values_list('name', 'name')
 
@@ -21,7 +22,7 @@ class PostForm(forms.ModelForm):
             'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
             'author': forms.TextInput(attrs={'class': 'form-control', 'value': '', 'type': 'hidden'}),
             'category': forms.Select(choices=choice_list, attrs={'class': 'form-control', 'style': 'text-transform: capitalize;'}),            
-            'body': SummernoteWidget(),
+            'body': CKEditorUploadingWidget(),
             'snippet': forms.Textarea(attrs={'class': 'form-control'}),
             'date_created': forms.DateTimeInput(attrs={'class': 'form-control'}),
 
@@ -41,7 +42,7 @@ class EditForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'title_tag': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(choices=choice_list, attrs={'class': 'form-control', 'style': 'text-transform: capitalize;'}),
-            'body': SummernoteWidget(),
+            'body': CKEditorUploadingWidget(),
             'snippet': forms.Textarea(attrs={'class': 'form-control'}),
             'date_created': forms.DateTimeInput(attrs={'class': 'form-control'}),
 

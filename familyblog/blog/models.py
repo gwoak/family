@@ -2,8 +2,8 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
-
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 # class to convert user input to lower case for new categories
 class NameField(models.CharField):
     def __init__(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class Post(models.Model):
     category = models.CharField(max_length=255, default='uncategorised')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     snippet = models.CharField(max_length=255)
-    body = models.TextField(blank=True, null=True)   
+    body = RichTextUploadingField(blank=True, null=True)   
     date_created = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
